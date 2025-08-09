@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo.png"></p>
+
 # 🚀 Low-Latency Lock-Free SPSC Queue (C++23)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
