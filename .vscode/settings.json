@@ -1,0 +1,28 @@
+{
+    // Auto format every time you save
+    "editor.formatOnSave": true,
+    // Always use clang-format
+    "C_Cpp.formatting": "clangFormat",
+    // Path to your clang-format binary if not in PATH
+    "C_Cpp.clang_format_path": "/usr/bin/clang-format", // or "clang-format.exe" on Windows
+    // Use your project’s .clang-format file
+    "C_Cpp.clang_format_style": "file",
+    // Optional: format on paste/type as well
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    "files.associations": {
+        "__bit_reference": "cpp",
+        "__node_handle": "cpp",
+        "bitset": "cpp",
+        "deque": "cpp",
+        "limits": "cpp",
+        "locale": "cpp",
+        "optional": "cpp",
+        "ratio": "cpp",
+        "regex": "cpp",
+        "vector": "cpp"
+    },
+    "cSpell.words": [
+        "spsc"
+    ]
+}

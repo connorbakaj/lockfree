@@ -1,0 +1,285 @@
+# .clang-tidy configuration for high-performance C++ code
+# Optimized for lock-free programming and low-latency applications
+
+Checks: >
+  -*,
+  bugprone-*,
+  cert-*,
+  clang-analyzer-*,
+  concurrency-*,
+  cppcoreguidelines-*,
+  google-*,
+  hicpp-*,
+  llvm-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  
+  # Disable overly strict or inappropriate checks for high-performance code
+  -bugprone-easily-swappable-parameters,
+  -bugprone-exception-escape,
+  -cert-err58-cpp,
+  -cppcoreguidelines-avoid-c-arrays,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-avoid-non-const-global-variables,
+  -cppcoreguidelines-macro-usage,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -cppcoreguidelines-owning-memory,
+  -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
+  -cppcoreguidelines-pro-type-union-access,
+  -google-readability-avoid-underscore-in-googletest-name,
+  -google-readability-braces-around-statements,
+  -google-readability-function-size,
+  -google-readability-namespace-comments,
+  -google-runtime-int,
+  -hicpp-avoid-c-arrays,
+  -hicpp-braces-around-statements,
+  -hicpp-function-size,
+  -hicpp-named-parameter,
+  -hicpp-no-array-decay,
+  -hicpp-signed-bitwise,
+  -hicpp-uppercase-literal-suffix,
+  -llvm-header-guard,
+  -llvm-include-order,
+  -misc-non-private-member-variables-in-classes,
+  -modernize-avoid-c-arrays,
+  -readability-avoid-const-params-in-decls,
+  -readability-braces-around-statements,
+  -readability-function-cognitive-complexity,
+  -readability-function-size,
+  -readability-magic-numbers,
+  -readability-uppercase-literal-suffix
+
+CheckOptions:
+  # =============================================================================
+  # IDENTIFIER NAMING RULES - Comprehensive Configuration
+  # =============================================================================
+  
+  # Classes, Structs, Unions
+  readability-identifier-naming.ClassCase: CamelCase
+  readability-identifier-naming.StructCase: CamelCase
+  readability-identifier-naming.UnionCase: CamelCase
+  readability-identifier-naming.TypedefCase: CamelCase
+  readability-identifier-naming.TypeAliasCase: CamelCase
+  
+  # Template Parameters
+  readability-identifier-naming.TemplateParameterCase: CamelCase
+  readability-identifier-naming.TemplateTemplateParameterCase: CamelCase
+  readability-identifier-naming.TypeTemplateParameterCase: CamelCase
+  readability-identifier-naming.ValueTemplateParameterCase: CamelCase
+  
+  # Enums
+  readability-identifier-naming.EnumCase: CamelCase
+  readability-identifier-naming.EnumConstantCase: UPPER_CASE
+  readability-identifier-naming.ScopedEnumConstantCase: CamelCase
+  
+  # Functions and Methods
+  readability-identifier-naming.FunctionCase: lower_case
+  readability-identifier-naming.MethodCase: lower_case
+  readability-identifier-naming.VirtualMethodCase: lower_case
+  readability-identifier-naming.PrivateMethodCase: lower_case
+  readability-identifier-naming.ProtectedMethodCase: lower_case
+  readability-identifier-naming.PublicMethodCase: lower_case
+  
+  # Variables
+  readability-identifier-naming.VariableCase: lower_case
+  readability-identifier-naming.LocalVariableCase: lower_case
+  readability-identifier-naming.ParameterCase: lower_case
+  readability-identifier-naming.PointerParameterCase: lower_case
+  readability-identifier-naming.ConstexprVariableCase: UPPER_CASE
+  readability-identifier-naming.GlobalConstantCase: UPPER_CASE
+  readability-identifier-naming.GlobalConstantPointerCase: UPPER_CASE
+  readability-identifier-naming.StaticConstantCase: UPPER_CASE
+  readability-identifier-naming.LocalConstantCase: lower_case
+  readability-identifier-naming.LocalConstantPointerCase: lower_case
+  
+  # Member Variables
+  readability-identifier-naming.MemberCase: lower_case
+  readability-identifier-naming.MemberSuffix: "_"
+  readability-identifier-naming.PrivateMemberCase: lower_case
+  readability-identifier-naming.PrivateMemberSuffix: "_"
+  readability-identifier-naming.ProtectedMemberCase: lower_case
+  readability-identifier-naming.ProtectedMemberSuffix: "_"
+  readability-identifier-naming.PublicMemberCase: lower_case
+  readability-identifier-naming.PublicMemberSuffix: ""
+  readability-identifier-naming.ConstantMemberCase: lower_case
+  readability-identifier-naming.ConstantMemberSuffix: "_"
+  
+  # Static Members
+  readability-identifier-naming.StaticVariableCase: lower_case
+  readability-identifier-naming.StaticVariableSuffix: "_"
+  readability-identifier-naming.ClassConstantCase: UPPER_CASE
+  
+  # Namespaces
+  readability-identifier-naming.NamespaceCase: lower_case
+  
+  # Macros and Preprocessor
+  readability-identifier-naming.MacroDefinitionCase: UPPER_CASE
+  
+  # Abstract Classes
+  readability-identifier-naming.AbstractClassCase: CamelCase
+  readability-identifier-naming.AbstractClassPrefix: ""
+  readability-identifier-naming.AbstractClassSuffix: ""
+  
+  # Concepts (C++20)
+  readability-identifier-naming.ConceptCase: CamelCase
+  
+  # =============================================================================
+  # PERFORMANCE-ORIENTED SETTINGS
+  # =============================================================================
+  
+  # Allow short variable names for performance-critical code
+  readability-identifier-naming.GetConfigPerFile: true
+  
+  # Concurrency-specific settings
+  concurrency-mt-unsafe.FunctionSet: any
+  
+  # Performance settings - allow aggressive optimizations
+  performance-faster-string-find.StringLikeClasses: "std::basic_string;llvm::StringRef"
+  performance-for-range-copy.AllowedTypes: "int;float;double;size_t;std::atomic"
+  performance-inefficient-vector-operation.VectorLikeClasses: "std::vector;llvm::SmallVector"
+  performance-move-const-arg.CheckTriviallyCopyableMove: false
+  performance-no-automatic-move.AllowedTypes: ""
+  performance-type-promotion-in-math-fn.IncludeStyle: llvm
+  performance-unnecessary-copy-initialization.AllowedTypes: ""
+  
+  # =============================================================================
+  # READABILITY SETTINGS
+  # =============================================================================
+  
+  # Identifier length limits
+  readability-identifier-naming.IgnoreFailedSplit: true
+  readability-identifier-naming.IgnoreMainLikeFunctions: true
+  
+  # Function parameter naming
+  readability-avoid-const-params-in-decls.IgnoreMacros: true
+  
+  # Container settings
+  readability-container-size-empty.ExcludedComparisonTypes: ""
+  
+  # Implicit conversion settings
+  readability-implicit-bool-conversion.AllowIntegerConditions: true
+  readability-implicit-bool-conversion.AllowPointerConditions: true
+  
+  # Isolate declaration settings
+  readability-isolate-declaration.AllowForEachLoops: true
+  
+  # Make member function const settings
+  readability-make-member-function-const.IgnoreMacros: true
+  
+  # Misleading indentation
+  readability-misleading-indentation.SuspiciousIndentation: 4
+  
+  # Qualified auto
+  readability-qualified-auto.AddConstToQualified: true
+  
+  # Redundant control flow
+  readability-redundant-control-flow.WarnOnConditionVariables: false
+  
+  # Simplify subscript expression
+  readability-simplify-subscript-expr.Types: "std::basic_string;std::basic_string_view;std::vector;std::array"
+  
+  # Static accessed through instance
+  readability-static-accessed-through-instance.NameSpecifierNestingThreshold: 3
+  
+  # Static definition in anonymous namespace
+  readability-static-definition-in-anonymous-namespace.HeaderFileExtensions: "h;hh;hpp;hxx"
+  
+  # String compare
+  readability-string-compare.StringLikeClasses: "std::basic_string"
+  
+  # =============================================================================
+  # MODERNIZE SETTINGS
+  # =============================================================================
+  
+  modernize-loop-convert.MaxCopySize: 16
+  modernize-loop-convert.MinConfidence: reasonable
+  modernize-loop-convert.NamingStyle: lower_case
+  
+  modernize-pass-by-value.IncludeStyle: llvm
+  modernize-pass-by-value.ValuesOnly: false
+  
+  modernize-replace-auto-ptr.IncludeStyle: llvm
+  
+  modernize-replace-random-shuffle.IncludeStyle: llvm
+  
+  modernize-use-auto.MinTypeNameLength: 5
+  modernize-use-auto.RemoveStars: false
+  
+  modernize-use-default-member-init.IgnoreMacros: true
+  modernize-use-default-member-init.UseAssignment: false
+  
+  modernize-use-emplace.ContainersWithPushBack: "std::vector;std::list;std::deque"
+  modernize-use-emplace.SmartPointers: "std::shared_ptr;std::unique_ptr;std::auto_ptr;std::weak_ptr"
+  modernize-use-emplace.TupleMakeFunctions: "std::make_pair;std::make_tuple"
+  modernize-use-emplace.TupleTypes: "std::pair;std::tuple"
+  
+  modernize-use-equals-default.IgnoreMacros: false
+  
+  modernize-use-equals-delete.IgnoreMacros: true
+  
+  modernize-use-nodiscard.ReplacementString: "[[nodiscard]]"
+  
+  modernize-use-nullptr.NullMacros: "NULL"
+  
+  modernize-use-override.AllowOverrideAndFinal: false
+  modernize-use-override.IgnoreDestructors: false
+  modernize-use-override.OverrideSpelling: override
+  modernize-use-override.FinalSpelling: final
+  
+  modernize-use-transparent-functors.SafeMode: false
+  
+  modernize-use-using.IgnoreMacros: true
+  
+  # =============================================================================
+  # MISC SETTINGS
+  # =============================================================================
+  
+  misc-const-correctness.AnalyzeValues: true
+  misc-const-correctness.AnalyzeReferences: true
+  misc-const-correctness.WarnPointersAsValues: false
+  misc-const-correctness.TransformValues: true
+  misc-const-correctness.TransformReferences: true
+  misc-const-correctness.TransformPointersAsValues: false
+  
+  misc-definitions-in-headers.HeaderFileExtensions: "h;hh;hpp;hxx"
+  misc-definitions-in-headers.UseHeaderFileExtension: true
+  
+  misc-include-cleaner.IgnoreHeaders: ""
+  
+  misc-unused-parameters.StrictMode: false
+  
+  # =============================================================================
+  # GOOGLE STYLE SETTINGS
+  # =============================================================================
+  
+  google-build-explicit-make-pair.IgnoreMacros: true
+  
+  google-default-arguments.IgnoreMacros: true
+  
+  google-explicit-constructor.IgnoreImplicit: false
+  
+  google-global-names-in-headers.HeaderFileExtensions: "h;hh;hpp;hxx"
+  
+  google-readability-casting.IgnoreMacros: true
+  
+  google-readability-todo.IgnoreMacros: true
+  
+  google-runtime-operator.IgnoreMacros: true
+
+# Header filter - only check our own code, not system headers
+HeaderFilterRegex: '^(?!.*/(third_party|external|system)/).*\.(h|hpp|hxx)$'
+
+# Inherit parent config if exists
+InheritParentConfig: false
+
+# Use .clang-format for formatting
+FormatStyle: file
+
+# Warning options
+WarningsAsErrors: '*'
