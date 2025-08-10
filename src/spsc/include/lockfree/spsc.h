@@ -2,6 +2,7 @@
 
 #include <atomic>
 #include <cassert>
+#include <memory>
 #include <type_traits>
 #include <utility>
 
@@ -78,7 +79,7 @@ public:
         if constexpr (std::is_trivially_copyable_v<T>) {
             slots_[current_tail & MASK].data = std::forward<U>(item);
         } else {
-            new (&slots_[current_tail & MASK].data) T(std::forward<U>(item));
+            std::uninitialized_fill_n(&slots_[current_tail & MASK].data, T(std::forward<U>(item)));
         }
 
         // Publish the item with release ordering
@@ -104,7 +105,7 @@ public:
             item = slots_[current_head & MASK].data;
         } else {
             item = std::move(slots_[current_head & MASK].data);
-            slots_[current_head & MASK].data.~T();
+            std::destroy_at(&slots_[current_head & MASK].data);
         }
 
         // Update head position with release ordering
